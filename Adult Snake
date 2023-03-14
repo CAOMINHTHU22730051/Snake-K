@@ -1,5 +1,6 @@
 #include <iostream>
 #include <windows.h>
+#include <conio.h>
 
 #define Max 100
 
@@ -48,10 +49,39 @@ void hienThi(Snake snake)
     }
 }
 
+void diChuyen(Snake &snake, int huong)
+{
+    for(int i = snake.doDai - 1 ; i > 0; i--)
+    {
+        snake.s[i] = snake.s[i - 1];
+    }
+    if (huong == 0) snake.s[0].x = snake.s[0].x + 1;
+    if (huong == 1) snake.s[0].y = snake.s[0].y + 1;
+    if (huong == 2) snake.s[0].x = snake.s[0].x - 1;
+    if (huong == 3) snake.s[0].y = snake.s[0].y - 1;
+}
+
 int main()
 {
     Snake snake;
     taoSnake(snake);
-    hienThi(snake);
+
+    int huong = 1;
+    char ch;
+
+    while (true)
+    {
+        if (kbhit())
+        {
+            ch = getch();
+            if (ch == 'a'&& huong != 0) huong = 2;
+            if (ch == 'w'&& huong != 1) huong = 3;
+            if (ch == 'd'&& huong != 2) huong = 0;
+            if (ch == 's'&& huong != 3) huong = 1;
+        }
+        diChuyen(snake, huong);
+        hienThi(snake);
+        Sleep(300);
+    }
     return 0;
 }
