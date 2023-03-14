@@ -1,0 +1,57 @@
+#include <iostream>
+#include <windows.h>
+
+#define Max 100
+
+using namespace std;
+
+void gotoxy(int x,int y)
+{
+    HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
+    COORD a = {x, y};
+    SetConsoleCursorPosition(h, a);
+}
+
+struct Point
+{
+    int x;
+    int y;
+};
+
+struct Snake
+{
+    Point s[Max];
+    int doDai;
+};
+
+void taoSnake(Snake &snake)
+{
+    snake.doDai = 3;
+    snake.s[0].x = 3;
+    snake.s[0].y = 1;
+    snake.s[1].x = 2;
+    snake.s[1].y = 1;
+    snake.s[2].x = 1;
+    snake.s[2].y = 1;
+}
+
+void hienThi(Snake snake)
+{
+    system("cls");
+    for(int i = 0; i < snake.doDai; i++)
+    {
+        gotoxy(snake.s[i].x,snake.s[i].y);
+        if(i == 0)
+            cout << "O";
+        else
+            cout << "+";
+    }
+}
+
+int main()
+{
+    Snake snake;
+    taoSnake(snake);
+    hienThi(snake);
+    return 0;
+}
