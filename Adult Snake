@@ -27,13 +27,21 @@ struct Snake
 
 void taoSnake(Snake &snake)
 {
-    snake.doDai = 3;
-    snake.s[0].x = 3;
-    snake.s[0].y = 1;
-    snake.s[1].x = 2;
-    snake.s[1].y = 1;
-    snake.s[2].x = 1;
-    snake.s[2].y = 1;
+    snake.doDai = 7;
+    snake.s[0].x = 16;
+    snake.s[0].y = 10;
+    snake.s[1].x = 15;
+    snake.s[1].y = 10;
+    snake.s[2].x = 14;
+    snake.s[2].y = 10;
+    snake.s[3].x = 13;
+    snake.s[3].y = 10;
+    snake.s[4].x = 12;
+    snake.s[4].y = 10;
+    snake.s[5].x = 11;
+    snake.s[5].y = 10;
+    snake.s[6].x = 10;
+    snake.s[6].y = 10;
 }
 
 void hienThi(Snake snake)
@@ -82,6 +90,18 @@ void taoKhung()
     Sleep(300);
 }
 
+bool endGame(Snake &snake)
+{
+    if(snake.s[0].x > 29 || snake.s[0].x < 1 || snake.s[0].y > 19 || snake.s[0].y < 1)
+        return true;
+	for (int i = 1; i < snake.doDai; i++)
+    {
+		if (snake.s[0].x == snake.s[i].x && snake.s[0].y == snake.s[i].y)
+            return true;
+    }
+    return false;
+}
+
 int main()
 {
     Snake snake;
@@ -90,7 +110,7 @@ int main()
     int huong = 1;
     char ch;
 
-    while (true)
+    while (!endGame(snake))
     {
         if (kbhit())
         {
@@ -104,5 +124,9 @@ int main()
         hienThi(snake);
         taoKhung();
     }
+    system("cls");
+    gotoxy(11,10);
+    cout << "GAME OVER";
+    gotoxy(0,20);
     return 0;
 }
