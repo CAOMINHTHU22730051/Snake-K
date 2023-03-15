@@ -61,6 +61,27 @@ void diChuyen(Snake &snake, int huong)
     if (huong == 3) snake.s[0].y = snake.s[0].y - 1;
 }
 
+void taoKhung()
+{
+    gotoxy(0,0);
+    for (int i = 0; i < 31; i++)
+        cout<<"#";
+    gotoxy(0,20);
+    for (int i = 0; i < 31; i++)
+        cout<<"#";
+    for (int i = 1; i < 20; i++)
+    {
+        gotoxy(0,i);
+        cout<<"#";
+    }
+    for (int i = 1; i < 20; i++)
+    {
+        gotoxy(30,i);
+        cout<<"#" << "\n\n";
+    }
+    Sleep(300);
+}
+
 int main()
 {
     Snake snake;
@@ -81,7 +102,7 @@ int main()
         }
         diChuyen(snake, huong);
         hienThi(snake);
-        Sleep(300);
+        taoKhung();
     }
     return 0;
 }
