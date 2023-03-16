@@ -1,6 +1,7 @@
 #include <iostream>
 #include <windows.h>
 #include <conio.h>
+#include <ctime>
 
 #define Max 100
 
@@ -25,6 +26,17 @@ struct Snake
     int doDai;
 };
 
+struct Food
+{
+    Point f;
+};
+
+void taoFood(Food &food)
+{
+    srand(time(NULL));
+    food.f.x = 1 + rand() % 29;
+    food.f.y = 1 + rand() % 19;
+}
 void taoSnake(Snake &snake)
 {
     snake.doDai = 7;
@@ -44,7 +56,7 @@ void taoSnake(Snake &snake)
     snake.s[6].y = 10;
 }
 
-void hienThi(Snake snake)
+void hienThi(Snake snake, Food food)
 {
     system("cls");
     for(int i = 0; i < snake.doDai; i++)
@@ -55,6 +67,8 @@ void hienThi(Snake snake)
         else
             cout << "+";
     }
+    gotoxy(food.f.x, food.f.y);
+    cout << "*";
 }
 
 void diChuyen(Snake &snake, int huong)
@@ -94,7 +108,7 @@ bool endGame(Snake &snake)
 {
     if(snake.s[0].x > 29 || snake.s[0].x < 1 || snake.s[0].y > 19 || snake.s[0].y < 1)
         return true;
-	for (int i = 1; i < snake.doDai; i++)
+    for (int i = 1; i < snake.doDai; i++)
     {
 		if (snake.s[0].x == snake.s[i].x && snake.s[0].y == snake.s[i].y)
             return true;
@@ -102,14 +116,27 @@ bool endGame(Snake &snake)
     return false;
 }
 
+
+void anFood(Snake &snake, Food &food)
+{
+    if(snake.s[0].x == food.f.x && snake.s[0].y == food.f.y)
+    {
+		snake.s[snake.doDai].x = snake.s[snake.doDai - 1].x;
+		snake.s[snake.doDai].y = snake.s[snake.doDai - 1].y;
+		snake.doDai++;
+		taoFood(food);
+    }
+}
+
 int main()
 {
     Snake snake;
     taoSnake(snake);
+    Food food;
+    taoFood(food);
 
     int huong = 1;
     char ch;
-
     while (!endGame(snake))
     {
         if (kbhit())
@@ -121,8 +148,9 @@ int main()
             if (ch == 's'&& huong != 3) huong = 1;
         }
         diChuyen(snake, huong);
-        hienThi(snake);
         taoKhung();
+        hienThi(snake, food);
+        anFood(snake, food);
     }
     system("cls");
     gotoxy(11,10);
